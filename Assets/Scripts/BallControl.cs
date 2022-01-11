@@ -54,10 +54,6 @@ public class BallControl : MonoBehaviour
                     sequence
                         .Insert(0f, basketball.DOLocalJump(new Vector3(basketball.localPosition.x,0, basketball.localPosition.z + 5), 1.5f,1,0.8f))
                         .OnComplete(BallAnim);
-                    //sequence
-                    //    .Insert(0f, basketball.DOLocalMove(new Vector3(basketball.localPosition.x, basketball.localPosition.y + 1f, basketball.localPosition.z + 2.5f), 0.35f).SetEase(Ease.OutQuad))
-                    //    .Insert(0.35f, basketball.DOLocalMove(new Vector3(basketball.localPosition.x, 0, basketball.localPosition.z + 5f), 0.35f).SetEase(Ease.InQuad))
-                    //    .OnComplete(BallAnim);
                 }
                 else
                 {
