@@ -13,7 +13,7 @@ public class BallControl : MonoBehaviour
     public bool isMove;
     public Vector3 firstPos;
     private Vector3 lastPos, movePos;
-    private float time;
+    public float time;
 
     private void Awake()
     {
@@ -42,28 +42,27 @@ public class BallControl : MonoBehaviour
                 time += Time.deltaTime;
                 lastPos = touch.position;
                 movePos = lastPos - firstPos;
-                Debug.Log(movePos);
                 transform.position += new Vector3(movePos.x, 0, movePos.y) * speed;
             }
 
-            else if (touch.phase == TouchPhase.Ended && movePos.y > 0 && time <= 0.4f)
+            else if (touch.phase == TouchPhase.Ended && movePos.y > 0 && time < 1f)
             {
                 if (!basket.isSafe)
                 {
                     sequence.Kill();
                     sequence = DOTween.Sequence();
                     sequence
-                        .Insert(0f, basketball.DOLocalMove(new Vector3(basketball.localPosition.x, basketball.localPosition.y + 0.8f, basketball.localPosition.z + 2), 0.2f).SetEase(Ease.OutQuad))
-                        .Insert(0.2f, basketball.DOLocalMove(new Vector3(basketball.localPosition.x, 0, basketball.localPosition.z + 4f), 0.2f).SetEase(Ease.InQuad))
-                        .OnComplete(BallAnim);                    
+                        .Insert(0f, basketball.DOLocalMove(new Vector3(basketball.localPosition.x, basketball.localPosition.y + 1f, basketball.localPosition.z + 2.5f), 0.35f).SetEase(Ease.OutQuad))
+                        .Insert(0.35f, basketball.DOLocalMove(new Vector3(basketball.localPosition.x, 0, basketball.localPosition.z + 5f), 0.35f).SetEase(Ease.InQuad))
+                        .OnComplete(BallAnim);
                 }
                 else
                 {
+                    Vector3 deltaPos = new Vector3(pota.position.x - basketball.position.x, pota.position.y - basketball.position.y, pota.position.z - basketball.position.z);
                     sequence.Kill();
                     sequence = DOTween.Sequence();
                     sequence
-                        .Insert(0, basketball.DOMove(new Vector3((pota.position.x + basketball.position.x) / 2, pota.position.y + 0.8f, (pota.position.z + basketball.position.z) / 2), 0.3f).SetEase(Ease.OutQuad))
-                        .Insert(0.3f, basketball.DOMove(new Vector3(pota.position.x, pota.position.y - 0.2f, pota.position.z), 0.4f).SetEase(Ease.InQuad));
+                        .Insert(0, basketball.DOJump(new Vector3(pota.position.x, pota.position.y - 0.2f, pota.position.z), 1.5f, 1, 1));
                 }
             }
         }
